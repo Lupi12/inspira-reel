@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>InspiraReel - Ideias para Vídeos Curtos</title>
+    <style>
+        body { font-family: Arial; margin: 40px; background: #f5f5f5; }
+        input, button { padding: 10px; font-size: 16px; width: 100%; margin-bottom: 20px; }
+        .ideia { background: white; padding: 15px; margin: 10px 0; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h1>🎬 InspiraReel</h1>
+    <form method="post">
+        <input type="text" name="nicho" placeholder="Digite seu nicho ou tema..." required>
+        <button type="submit">Gerar Ideias de Vídeo</button>
+    </form>
+
+    {% for ideia in ideias %}
+        <div class="ideia">{{ ideia|safe }}</div>
+    {% endfor %}
+</body>
+</html>

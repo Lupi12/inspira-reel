@@ -1,22 +1,163 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InspiraReel - Ideias para Vídeos Curtos</title>
+
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    
     <style>
-        body { font-family: Arial; margin: 40px; background: #f5f5f5; }
-        input, button { padding: 10px; font-size: 16px; width: 100%; margin-bottom: 20px; }
-        .ideia { background: white; padding: 15px; margin: 10px 0; border-radius: 8px; }
+        /* Importa a fonte Inter do Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+        :root {
+            --background: #121212;
+            --text-primary: #EAEAEA;
+            --text-secondary: #b3b3b3;
+            --accent: #9370DB; /* Roxo médio, amigável */
+            --surface: #1e1e1e; /* Cor para caixas de texto e fundos secundários */
+            --error: #ff5252;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .logo {
+            width: 80px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: var(--text-primary);
+            font-weight: 700;
+            margin-top: 0;
+        }
+
+        p.subtitle {
+            color: var(--text-secondary);
+            max-width: 400px;
+            margin-top: -10px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 500px;
+            margin-top: 30px;
+        }
+
+        input[type="text"] {
+            background-color: var(--surface);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 16px;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            outline: none; /* Remove a borda azul ao clicar */
+            transition: border-color 0.3s;
+            text-align: center;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--accent);
+        }
+
+        button {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #8A2BE2; /* Um roxo mais forte no hover */
+        }
+
+        .results-container {
+            margin-top: 40px;
+            width: 100%;
+            max-width: 500px;
+            text-align: left;
+        }
+        
+        .error-box {
+            background-color: var(--surface);
+            border: 1px solid var(--error);
+            border-radius: 8px;
+            padding: 20px;
+            color: var(--error);
+        }
+
+        .ideias-box {
+            background-color: var(--surface);
+            border-radius: 8px;
+            padding: 1px 20px 20px 20px;
+        }
+
+        .ideias-box ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .ideias-box li {
+            padding: 15px 0;
+            border-bottom: 1px solid #333;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .ideias-box li:last-child {
+            border-bottom: none;
+        }
     </style>
 </head>
 <body>
-    <h1>🎬 InspiraReel</h1>
+    
+    <img src="/static/InspiraReel Logo.jpg" alt="Logo do InspiraReel" class="logo">
+    <h1>InspiraReel</h1>
+    <p class="subtitle">Transforme qualquer nicho em ideias virais para vídeos curtos.</p>
+
     <form method="post">
         <input type="text" name="nicho" placeholder="Digite seu nicho ou tema..." required>
-        <button type="submit">Gerar Ideias de Vídeo</button>
+        <button type="submit">✨ Gerar Ideias</button>
     </form>
 
-    {% for ideia in ideias %}
-        <div class="ideia">{{ ideia|safe }}</div>
-    {% endfor %}
+    <div class="results-container">
+        {% if error %}
+            <div class="error-box">
+                <strong>Opa!</strong> {{ error }}
+            </div>
+        {% endif %}
+    
+        {% if ideias %}
+            <div class="ideias-box">
+                <h2>Aqui estão suas ideias:</h2>
+                <ul>
+                    {% for ideia in ideias %}
+                        <li>{{ ideia|safe }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+
 </body>
 </html>

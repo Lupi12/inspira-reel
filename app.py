@@ -1,13 +1,16 @@
-# app.py CORRIGIDO
-
 import os
 from flask import Flask, render_template, request
 from openai import OpenAI
 from dotenv import load_dotenv
+from whitenoise import WhiteNoise # <--- LINHA NOVA 1: IMPORTA O AJUDANTE
 
 load_dotenv()
 
 app = Flask(__name__)
+# --- LINHA NOVA 2: CONFIGURA O AJUDANTE ---
+# Diz ao nosso app para usar o WhiteNoise para encontrar arquivos na pasta 'static'
+app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/')
+
 
 try:
     client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -45,9 +48,6 @@ def home():
                 )
                 
                 ideias_texto = resposta.choices[0].message.content
-                # --- MUDANÇA IMPORTANTE AQUI ---
-                # Esta linha agora está DENTRO do 'try', garantindo que só
-                # será executada se 'ideias_texto' for criada com sucesso.
                 ideias_formatadas = [ideia.strip() for ideia in ideias_texto.split('---') if ideia.strip()]
 
             except Exception as e:

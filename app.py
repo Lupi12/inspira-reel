@@ -1,16 +1,20 @@
 import os
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory
 from openai import OpenAI
 from dotenv import load_dotenv
-from whitenoise import WhiteNoise # <--- LINHA NOVA 1: IMPORTA O AJUDANTE
+from whitenoise import WhiteNoise
 
 load_dotenv()
 
+# Configuração do App e do WhiteNoise
 app = Flask(__name__)
-# --- LINHA NOVA 2: CONFIGURA O AJUDANTE ---
-# Diz ao nosso app para usar o WhiteNoise para encontrar arquivos na pasta 'static'
+# Informa ao WhiteNoise onde encontrar os arquivos estáticos
 app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/')
 
+# Rota para servir o manifest.json
+@app.route('/manifest.json')
+def serve_manifest():
+    return send_from_directory('static', 'manifest.json')
 
 try:
     client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))

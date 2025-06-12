@@ -32,10 +32,12 @@
             text-align: center;
         }
 
-        .logo {
-            width: 80px;
+        /* ESTILO NOVO PARA O VÍDEO */
+        .logo-video {
+            width: 200px; /* Ou o tamanho que você achar melhor */
             height: auto;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+            border-radius: 15px; /* Adiciona uma borda arredondada, fica bonito em vídeos */
         }
 
         h1 {
@@ -131,7 +133,8 @@
 </head>
 <body>
     
-    <img src="{{ url_for('static', filename='Logotipo.png') }}" alt="Logo do InspiraReel" class="logo">
+    <video src="{{ url_for('static', filename='logo-video.mp4') }}" class="logo-video" autoplay loop muted playsinline></video>
+    
     <p class="subtitle">Transforme qualquer nicho em ideias virais para vídeos curtos.</p>
 
     <form method="post">
